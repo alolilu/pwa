@@ -1,0 +1,56 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+header {
+  background-color: #333;
+  color: #fff;
+  height: 30vh;
+  display: flex;
+  justify-content: center;
+  padding: 15px;
+  background-image: url(../images/background.png);
+  text-align: center;
+  background-image: center;
+  background-size: contain;
+  align-items: center;
+}
+
+header h1 {
+  background-color: black;
+  padding: 20px 50px;
+  border: 3px solid white;
+}
+.container {
+  padding: 20px;
+  text-align: center;
+}
+#install-button {
+  display: none;
+}
+.movie-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 20px;
+}
+.movie-card {
+  width: calc(23% - 20px);
+  margin: 10px;
+  background-color: #f4f4f4;
+  border-radius: 5px;
+  overflow: hidden;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+h3 {
+  margin-top: 0px;
+}
+.movie-poster {
+  width: 100%;
+  height: auto;
+}
+.movie-details {
+  padding: 10px;
+}

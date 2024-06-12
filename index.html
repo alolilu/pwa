@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Bibibliotheque de films" />
+    <link rel="manifest" href="/manifest.json" />
+    <link rel="stylesheet" href="css/styles.css" />
+    <title>Holla Movie Votre serice hors ligne</title>
+  </head>
+  <body>
+    <header>
+      <h1>Holla movie</h1>
+    </header>
+    <div class="container">
+      <h2>Bienvenue sur notre application !</h2>
+      <p>C'est une Progressive Web App !</p>
+    </div>
+
+    <div class="movie-container" id="movie-container"></div>
+
+    <script>
+            if ('serviceWorker' in navigator) {
+                window.addEventListener('load', function() {
+                    navigator.serviceWorker.register('/service-worker.js').then(function(registration) {
+                        console.log('ServiceWorker registration successful with scope: ', registration.scope);
+                        loadMovies();
+                    }, function(err) {
+                        console.log('ServiceWorker registration failed: ', err);
+                    });
+                });
+            }
+
+            async function fetchMovies() {
+                try {
+                    const response = await fetch('https://www.omdbapi.com/?s=Avengers&apikey=35d8e2b');
+                    const data = await response.json();
+                    displayMovies(data.Search);
+                } catch (error) {
+                    console.error("Impossible de récupérer les films en ligne:", error);
+                    console.log("Récupération des films depuis le cache...");
+                }
+            }
+
+            function displayMovies(movies) {
+                const movieContainer = document.getElementById('movie-container');
+                movieContainer.innerHTML = '';
+                console.log(movies);
+                movies.forEach(movie => {
+                    const movieCard = document.createElement('div');
+                    movieCard.classList.add('movie-card');
+
+                    const poster = movie.Poster !== 'N/A' ? movie.Poster : 'https://via.placeholder.com/300x450?text=No+Image';
+                    const title = movie.Title;
+                    const year = movie.Year;
+
+                    movieCard.innerHTML = `
+                        <img class="movie-poster" src="${poster}" alt="${title}">
+                        <div class="movie-details">
+                            <h3>${title}</h3>
+                            <p>${year}</p>
+                        </div>
+                    `;
+
+                    movieContainer.appendChild(movieCard);
+                });
+            }
+
+            async function loadMovies() {
+                try {
+                    await fetchMovies();
+                } catch (error) {
+                    console.error("Impossible de récupérer les films en ligne:", error);
+                    console.log("Récupération des films depuis le cache...");
+                }
+            }
+
+            window.addEventListener("load", () => {
+        window.addEventListener("offline", () => {
+          showOfflineNotification();
+        });
+      });
+
+      function showOfflineNotification() {
+        console.log(" vous etes hoes ligne");
+      }
+    </script>
+  </body>
+</html>
